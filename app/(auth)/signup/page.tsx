@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff, Check, ArrowRight } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -134,6 +135,23 @@ export default function SignupPage() {
           <ArrowRight className="h-4 w-4" />
         </button>
       </form>
+
+      <div className="my-6 flex items-center gap-3 text-[10px] uppercase tracking-wider text-zinc-400">
+        <div className="h-px flex-1 bg-zinc-200" />
+        <span>Or continue with</span>
+        <div className="h-px flex-1 bg-zinc-200" />
+      </div>
+
+      <button
+        type="button"
+        onClick={() => router.push("/dashboard")}
+        className="w-full flex items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-4 py-2.5 text-sm font-semibold text-zinc-700 hover:text-zinc-900 transition"
+      >
+        <div className="flex h-5 w-5 items-center justify-center">
+          <FcGoogle className="h-5 w-5" />
+        </div>
+        <span className="truncate">Continue with Google</span>
+      </button>
 
       <p className="mt-6 text-center text-xs text-zinc-500">
         Already have an account?{" "}

@@ -3,7 +3,8 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Globe } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,11 +28,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="glass rounded-2xl border border-zinc-200 p-8 shadow-xl bg-white relative">
+    <div className="glass max-w-md mx-auto rounded-2xl border border-zinc-200 p-8 shadow-xl bg-white relative">
       {/* Glow highlight */}
       <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-      
-      <div className="mb-8">
+
+      <div className="mb-8 text-center">
         <h2 className="text-2xl font-bold tracking-tight text-zinc-900">Welcome back</h2>
         <p className="text-zinc-500 text-sm mt-1">Sign in to your customer workspace</p>
       </div>
@@ -68,12 +69,14 @@ export default function LoginPage() {
             <label htmlFor="password" className="text-xs font-semibold text-zinc-555 text-zinc-500">
               Password
             </label>
-            <Link 
-              href="#" 
-              className="text-xs text-indigo-650 hover:text-indigo-750 text-indigo-600 hover:text-indigo-700 transition"
-            >
-              Forgot password?
-            </Link>
+            <div className="ml-4">
+              <Link
+                href="#"
+                className="text-xs text-indigo-600 hover:text-indigo-700 transition"
+              >
+                Forgot password?
+              </Link>
+            </div>
           </div>
           <div className="relative">
             <input
@@ -129,15 +132,17 @@ export default function LoginPage() {
       <button
         type="button"
         onClick={() => router.push("/dashboard")}
-        className="w-full flex items-center justify-center gap-2.5 rounded-xl border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-4 py-2.5 text-xs font-semibold text-zinc-700 hover:text-zinc-900 transition"
+        className="w-full flex items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 px-4 py-2.5 text-sm font-semibold text-zinc-700 hover:text-zinc-900 transition"
       >
-        <Globe className="h-4 w-4 text-zinc-500" />
-        Single Sign-On with Google
+        <div className="flex h-5 w-5 items-center justify-center">
+          <FcGoogle className="h-5 w-5" />
+        </div>
+        <span className="truncate">Continue with Google</span>
       </button>
 
       <p className="mt-8 text-center text-xs text-zinc-500">
-        Don't have an account?{" "}
-        <Link href="/signup" className="font-semibold text-indigo-650 text-indigo-600 hover:text-indigo-700 transition">
+        Don't have an account?{' '}
+        <Link href="/signup" className="font-semibold text-indigo-600 hover:text-indigo-700 transition">
           Create one free
         </Link>
       </p>
