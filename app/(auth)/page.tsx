@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function AuthPage() {
-  return <div>Auth page</div>;
+  redirect("/login");
 }

@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "@prisma/client": "7.9.1",
-    "@tailwindcss/postcss": "^2.0.2",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "20.14.15",
     "@types/react": "18.3.3",
