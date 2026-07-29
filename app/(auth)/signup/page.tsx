@@ -12,6 +12,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState("Viewer");
   const [isLoading, setIsLoading] = useState(false);
 
   // Password Validations
@@ -27,6 +28,11 @@ export default function SignupPage() {
     e.preventDefault();
     if (!canSubmit) return;
     setIsLoading(true);
+
+    // include role in the simulated signup payload
+    const payload = { fullName, email, role };
+    // eslint-disable-next-line no-console
+    console.log("Signup payload:", payload);
 
     setTimeout(() => {
       setIsLoading(false);
@@ -83,6 +89,28 @@ export default function SignupPage() {
               required
             />
             <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+          </div>
+        </div>
+
+        {/* User Role */}
+        <div className="space-y-1.5">
+          <label htmlFor="role" className="text-xs font-semibold text-zinc-500">
+            User Role
+          </label>
+          <div className="relative">
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full appearance-none rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10"
+            >
+              <option value="Admin">Admin</option>
+              <option value="Analysis">Analysis</option>
+              <option value="Viewer">Viewer</option>
+            </select>
+            <svg xmlns="http://www.w3.org/2000/svg" className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+            </svg>
           </div>
         </div>
 
