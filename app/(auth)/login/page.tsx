@@ -65,19 +65,9 @@ export default function LoginPage() {
 
         {/* Password Field */}
         <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <label htmlFor="password" className="text-xs font-semibold text-zinc-555 text-zinc-500">
-              Password
-            </label>
-            <div className="ml-4">
-              <Link
-                href="#"
-                className="text-xs text-indigo-600 hover:text-indigo-700 transition"
-              >
-                Forgot password?
-              </Link>
-            </div>
-          </div>
+          <label htmlFor="password" className="text-xs font-semibold text-zinc-555 text-zinc-500">
+            Password
+          </label>
           <div className="relative">
             <input
               id="password"
@@ -120,6 +110,15 @@ export default function LoginPage() {
           {isLoading ? "Verifying..." : "Sign In"}
           <ArrowRight className="h-4 w-4" />
         </button>
+
+        <div className="text-center pt-3">
+          <Link
+            href="#"
+            className="text-xs text-indigo-600 hover:text-indigo-700 transition"
+          >
+            Forgot password?
+          </Link>
+        </div>
       </form>
 
       <div className="my-6 flex items-center gap-3 text-[10px] uppercase tracking-wider text-zinc-400">
