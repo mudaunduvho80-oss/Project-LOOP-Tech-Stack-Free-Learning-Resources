@@ -1,17 +1,9 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import "./globals.css";
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["400", "500", "600", "700", "800"],
-});
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "LOOP — Customer Intelligence Platform",
-  description: "Collect customer feedback, analyze sentiment, and make data-driven decisions with LOOP.",
-  keywords: "feedback, customer feedback, sentiment analysis, reports, customer intelligence, dashboard",
+  title: 'LOOP AI Productivity - SaaS Dashboard',
+  description: 'AI-driven customer feedback & productivity dashboard for SaaS teams.',
 };
 
 export default function RootLayout({
@@ -20,10 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={plusJakartaSans.variable}>
-      <body className="font-sans antialiased bg-white text-zinc-900 min-h-screen">
-        {children}
-      </body>
+    <html lang="en" className="dark">
+      <body>{children}</body>
     </html>
   );
 }
