@@ -1,305 +1,48 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { 
-  MessageSquare, 
-  Smile, 
-  AlertTriangle, 
-  ArrowUpRight, 
-  ArrowDownRight,
-  TrendingUp,
-  Filter,
-  Download,
-  Calendar,
-  CheckCircle2,
-  Clock,
-  Zap
-} from "lucide-react";
+import { useEffect, useState } from 'react';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
+import { ArrowUpRight, CalendarDays, Check, CheckCircle2, Clock3, Flame, Lightbulb, MoreHorizontal, Play, Plus, Sparkles, Target, Timer, TrendingUp, Video } from 'lucide-react';
+
+const tasks = [
+  ['Finalize the mobile app wireframes', 'Design', '10:30 AM', 'High', 'todo'],
+  ['Review Q3 product roadmap', 'Strategy', '12:00 PM', 'Medium', 'progress'],
+  ['Prepare team stand-up notes', 'Team', '2:30 PM', 'Low', 'todo'],
+  ['Reply to client feedback', 'Customer', '4:00 PM', 'High', 'done'],
+];
+const chartData = [{day:'Mon', value:48},{day:'Tue', value:62},{day:'Wed', value:55},{day:'Thu', value:78},{day:'Fri', value:71},{day:'Sat', value:86},{day:'Sun', value:82}];
 
 export default function DashboardPage() {
-  const [timeRange, setTimeRange] = useState("30d");
+  const [filter, setFilter] = useState('All');
+  const [running, setRunning] = useState(false);
+  const [seconds, setSeconds] = useState(25 * 60);
+  const [added, setAdded] = useState(false);
+  useEffect(() => { if (!running) return; const id = setInterval(() => setSeconds(s => s > 0 ? s - 1 : 25 * 60), 1000); return () => clearInterval(id); }, [running]);
+  const shownTasks = tasks.filter((task) => filter === 'All' || (filter === 'To Do' && task[4] === 'todo') || (filter === 'In Progress' && task[4] === 'progress') || (filter === 'Done' && task[4] === 'done'));
+  const timer = `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
 
-  // Mock feedback data for the feed
-  const recentFeedback = [
-    {
-      id: "fb-1",
-      customer: "Sarah Jenkins",
-      company: "Acme Corp",
-      text: "The checkout page keeps throwing 500 errors when using Stripe billing. Lost 3 customers today because of it.",
-      sentiment: "negative",
-      category: "Billing / Checkout",
-      priority: "high",
-      time: "24m ago"
-    },
-    {
-      id: "fb-2",
-      customer: "Alex Rivera",
-      company: "Stark Labs",
-      text: "Is there any plan to support an offline mode? Our field workers frequently lose internet access while recording logs.",
-      sentiment: "neutral",
-      category: "Feature Request",
-      priority: "medium",
-      time: "2h ago"
-    },
-    {
-      id: "fb-3",
-      customer: "Elena Rostova",
-      company: "Fintech Go",
-      text: "Loving the new dashboard interface! The reports generation is 10x faster now. Incredible updates this week.",
-      sentiment: "positive",
-      category: "UX / Performance",
-      priority: "low",
-      time: "5h ago"
-    },
-    {
-      id: "fb-4",
-      customer: "David Kim",
-      company: "DesignCo",
-      text: "The documentation link on the API endpoints references an old v2 schema that returns errors. Please update.",
-      sentiment: "negative",
-      category: "Documentation",
-      priority: "medium",
-      time: "1d ago"
-    }
-  ];
+  return <div className="space-y-6">
+    <section className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[.16em] text-brand-500">Tuesday, August 5</p><h2 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">Your productivity overview</h2></div><button onClick={() => setAdded(true)} className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 transition hover:bg-brand-600"><Plus size={17}/> {added ? 'Task added' : 'Add Task'}</button></section>
 
-  return (
-    <div className="space-y-8 max-w-7xl mx-auto">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900">Dashboard</h1>
-          <p className="text-zinc-500 text-sm mt-1">Here is a summary of your workspace customer intelligence signals.</p>
-        </div>
+    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <Metric label="Tasks Today" value="4 / 6" note="2 tasks completed" icon={<CheckCircle2/>} color="text-brand-500 bg-brand-50 dark:bg-brand-500/10" extra={<span className="text-brand-500">67%</span>}/>
+      <Metric label="Focus Time" value="3h 45m" note="+18% from yesterday" icon={<Timer/>} color="text-cyan-600 bg-cyan-50 dark:bg-cyan-500/10"/>
+      <Metric label="Goals" value="3 / 5" note="On track this week" icon={<Target/>} color="text-rose-500 bg-rose-50 dark:bg-rose-500/10"/>
+      <Metric label="Daily Streak" value="12 days" note="Personal best: 16 days" icon={<Flame className="fill-current"/>} color="text-amber-500 bg-amber-50 dark:bg-amber-500/10"/>
+    </section>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 bg-zinc-50 px-3 py-2 rounded-xl border border-zinc-200 text-xs font-semibold text-zinc-600">
-            <Calendar className="h-3.5 w-3.5 text-zinc-400" />
-            <span>Time Range:</span>
-            <select 
-              value={timeRange} 
-              onChange={(e) => setTimeRange(e.target.value)}
-              className="bg-transparent border-none outline-none cursor-pointer text-zinc-900 font-bold"
-            >
-              <option value="7d" className="bg-white text-zinc-900">Last 7 days</option>
-              <option value="30d" className="bg-white text-zinc-900">Last 30 days</option>
-              <option value="90d" className="bg-white text-zinc-900">Last 90 days</option>
-            </select>
-          </div>
-
-          <button className="inline-flex items-center gap-2 rounded-xl glass px-3.5 py-2 text-xs font-semibold text-zinc-650 hover:text-zinc-900 border border-zinc-200 transition">
-            <Download className="h-3.5 w-3.5" />
-            Export data
-          </button>
-        </div>
+    <section className="grid gap-5 xl:grid-cols-3">
+      <div className="card xl:col-span-2"><div className="mb-5 flex flex-wrap items-center justify-between gap-3"><div><h3 className="section-title">Today&apos;s Tasks <span className="ml-1 rounded-full bg-brand-50 px-2 py-0.5 text-[11px] text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">{shownTasks.length}</span></h3><p className="section-copy">Make steady progress on what matters most.</p></div><div className="flex rounded-xl bg-slate-100 p-1 text-[11px] font-semibold dark:bg-white/5">{['All','To Do','In Progress','Done'].map(tab => <button onClick={() => setFilter(tab)} className={`rounded-lg px-2.5 py-1.5 ${filter === tab ? 'bg-white text-slate-900 shadow-sm dark:bg-[#1c2640] dark:text-white' : 'text-slate-500 dark:text-slate-400'}`} key={tab}>{tab}</button>)}</div></div>
+        <div className="space-y-2">{shownTasks.map(([title,category,time,priority,status]) => <div key={title} className="group flex items-center gap-3 rounded-xl border border-slate-100 p-3 transition hover:border-brand-200 hover:bg-brand-50/30 dark:border-white/[.07] dark:hover:border-brand-500/30 dark:hover:bg-white/[.025]"><span className={`grid h-5 w-5 shrink-0 place-items-center rounded-md border ${status === 'done' ? 'border-brand-500 bg-brand-500 text-white' : 'border-slate-300 dark:border-slate-600'}`}>{status === 'done' && <Check size={13}/>}</span><span className="min-w-0 flex-1"><b className={`block truncate text-sm ${status === 'done' ? 'text-slate-400 line-through' : ''}`}>{title}</b><small className="text-[11px] text-slate-400">{category} · {time}</small></span><span className={`hidden rounded-full px-2 py-1 text-[10px] font-bold sm:block ${priority === 'High' ? 'bg-rose-50 text-rose-500 dark:bg-rose-500/10' : priority === 'Medium' ? 'bg-amber-50 text-amber-600 dark:bg-amber-500/10' : 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10'}`}>{priority}</span><MoreHorizontal size={18} className="text-slate-400"/></div>)}</div>
       </div>
+      <div className="card flex min-h-[350px] flex-col items-center text-center"><div className="flex w-full items-center justify-between"><div className="text-left"><h3 className="section-title">Focus Timer</h3><p className="section-copy">Pomodoro session</p></div><span className="rounded-lg bg-brand-50 p-2 text-brand-500 dark:bg-brand-500/10"><Timer size={17}/></span></div><div className="relative mt-6 grid h-44 w-44 place-items-center rounded-full" style={{background:`conic-gradient(#6c4cfd ${((1500-seconds)/1500)*100}%, rgba(148,163,184,.15) 0)`}}><div className="grid h-[calc(100%-14px)] w-[calc(100%-14px)] place-items-center rounded-full bg-white dark:bg-[#11182b]"><div><b className="block text-3xl tracking-tight">{timer}</b><span className="text-[10px] font-bold uppercase tracking-[.16em] text-slate-400">{running ? 'Focus in progress' : 'Ready to focus'}</span></div></div></div><button onClick={() => setRunning(!running)} className="mt-6 inline-flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/25">{running ? <Clock3 size={16}/> : <Play size={16} className="fill-current"/>}{running ? 'Pause Focus' : 'Start Focus'}</button><p className="mt-3 text-[11px] text-slate-400">Next break in 25 minutes</p></div>
+    </section>
 
-      {/* Grid Statistics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Metric 1 */}
-        <div className="glass p-6 rounded-2xl border border-zinc-200 relative overflow-hidden bg-white shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-semibold text-zinc-500">Total Feedback Logs</span>
-            <div className="h-9 w-9 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-650">
-              <MessageSquare className="h-4.5 w-4.5" />
-            </div>
-          </div>
-          <p className="text-3xl font-bold text-zinc-900 tracking-tight">4,819</p>
-          <div className="flex items-center gap-1.5 mt-2">
-            <span className="text-green-600 text-xs font-semibold flex items-center">
-              <ArrowUpRight className="h-3.5 w-3.5" />
-              14.2%
-            </span>
-            <span className="text-[10px] text-zinc-400">vs last month</span>
-          </div>
-        </div>
-
-        {/* Metric 2 */}
-        <div className="glass p-6 rounded-2xl border border-zinc-200 relative overflow-hidden bg-white shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-semibold text-zinc-500">Customer CSAT</span>
-            <div className="h-9 w-9 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
-              <Smile className="h-4.5 w-4.5" />
-            </div>
-          </div>
-          <p className="text-3xl font-bold text-zinc-900 tracking-tight">88%</p>
-          <div className="flex items-center gap-1.5 mt-2">
-            <span className="text-green-600 text-xs font-semibold flex items-center">
-              <ArrowUpRight className="h-3.5 w-3.5" />
-              3.1%
-            </span>
-            <span className="text-[10px] text-zinc-400">vs last month</span>
-          </div>
-        </div>
-
-        {/* Metric 3 */}
-        <div className="glass p-6 rounded-2xl border border-zinc-200 relative overflow-hidden bg-white shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-semibold text-zinc-500">Critical Issues</span>
-            <div className="h-9 w-9 rounded-xl bg-red-50 flex items-center justify-center text-red-600">
-              <AlertTriangle className="h-4.5 w-4.5" />
-            </div>
-          </div>
-          <p className="text-3xl font-bold text-zinc-900 tracking-tight">5</p>
-          <div className="flex items-center gap-1.5 mt-2">
-            <span className="text-red-650 text-xs font-semibold flex items-center">
-              <ArrowDownRight className="h-3.5 w-3.5" />
-              -25%
-            </span>
-            <span className="text-[10px] text-zinc-400">resolved index</span>
-          </div>
-        </div>
-
-        {/* Metric 4 */}
-        <div className="glass p-6 rounded-2xl border border-zinc-200 relative overflow-hidden bg-white shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-semibold text-zinc-500">AI Accuracy Rating</span>
-            <div className="h-9 w-9 rounded-xl bg-purple-50 flex items-center justify-center text-purple-650">
-              <Zap className="h-4.5 w-4.5" />
-            </div>
-          </div>
-          <p className="text-3xl font-bold text-zinc-900 tracking-tight">99.4%</p>
-          <div className="flex items-center gap-1.5 mt-2">
-            <span className="text-zinc-500 text-xs font-semibold">Self-improving</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Graphs & Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Weekly Sentiment Trend */}
-        <div className="glass p-6 rounded-2xl border border-zinc-200 bg-white lg:col-span-2 flex flex-col justify-between shadow-sm">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h3 className="text-sm font-bold text-zinc-900">Feedback Sentiment Index</h3>
-              <p className="text-zinc-500 text-xs mt-0.5">Tracking sentiment spikes across release cycles.</p>
-            </div>
-            <span className="inline-flex items-center gap-1 text-xs text-indigo-600 font-semibold bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-lg">
-              <TrendingUp className="h-3.5 w-3.5" />
-              +8.3% Positive shift
-            </span>
-          </div>
-
-          {/* SVG Line Graph Mockup */}
-          <div className="h-56 w-full relative flex items-end">
-            <svg className="w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="gradient-chart" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#6366f1" stopOpacity="0.2" />
-                  <stop offset="100%" stopColor="#6366f1" stopOpacity="0.0" />
-                </linearGradient>
-              </defs>
-              {/* Background grid lines */}
-              <line x1="0" y1="10" x2="100" y2="10" stroke="#e4e4e7" strokeWidth="0.1" strokeDasharray="1,1" />
-              <line x1="0" y1="20" x2="100" y2="20" stroke="#e4e4e7" strokeWidth="0.1" strokeDasharray="1,1" />
-              <line x1="0" y1="30" x2="100" y2="30" stroke="#e4e4e7" strokeWidth="0.1" strokeDasharray="1,1" />
-              
-              {/* Chart Line Path */}
-              <path d="M0,32 Q10,25 20,29 T40,15 T60,22 T80,10 T100,5 L100,40 L0,40 Z" fill="url(#gradient-chart)" />
-              <path d="M0,32 Q10,25 20,29 T40,15 T60,22 T80,10 T100,5" fill="none" stroke="#6366f1" strokeWidth="1.5" />
-
-              {/* Dots on peak */}
-              <circle cx="80" cy="10" r="1.5" fill="#818cf8" />
-              <circle cx="100" cy="5" r="1.5" fill="#0ea5e9" />
-            </svg>
-            <div className="absolute bottom-0 inset-x-0 flex justify-between text-[9px] text-zinc-400 font-semibold font-mono pt-2 border-t border-zinc-150">
-              <span>Week 1</span>
-              <span>Week 2</span>
-              <span>Week 3</span>
-              <span>Week 4</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Issue distribution categories */}
-        <div className="glass p-6 rounded-2xl border border-zinc-200 bg-white flex flex-col justify-between shadow-sm">
-          <div>
-            <h3 className="text-sm font-bold text-zinc-900 mb-1">Issue Distribution</h3>
-            <p className="text-zinc-500 text-xs mb-6">Feedback breakdown by main keywords.</p>
-          </div>
-
-          <div className="space-y-4">
-            <ProgressRow label="Billing & Checkout" percentage={35} color="bg-red-500" count={42} />
-            <ProgressRow label="UX & Interface Design" percentage={28} color="bg-indigo-500" count={34} />
-            <ProgressRow label="Offline Sync Feature" percentage={22} color="bg-amber-500" count={27} />
-            <ProgressRow label="Documentation Errors" percentage={15} color="bg-zinc-400" count={18} />
-          </div>
-
-          <div className="pt-4 border-t border-zinc-150 mt-4 text-center">
-            <Link 
-              href="/trends" 
-              className="text-xs text-indigo-600 hover:text-indigo-700 font-semibold inline-flex items-center gap-1"
-            >
-              Analyze topic clusters
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Feedbacks Lists */}
-      <div className="glass rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-lg font-bold text-zinc-900">Recent Feedback Feed</h3>
-            <p className="text-zinc-500 text-xs mt-0.5">Real-time incoming customer logs from Slack, Intercom, and email.</p>
-          </div>
-          <Link 
-            href="/inbox" 
-            className="text-xs text-indigo-600 hover:text-indigo-700 font-semibold inline-flex items-center gap-1"
-          >
-            Open inbox manager
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </Link>
-        </div>
-
-        <div className="divide-y divide-zinc-100">
-          {recentFeedback.map((fb) => (
-            <div key={fb.id} className="py-4 first:pt-0 last:pb-0 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1.5 max-w-3xl">
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-zinc-900">{fb.customer}</span>
-                  <span className="text-[10px] text-zinc-500">{fb.company}</span>
-                  <span className="text-[10px] text-zinc-300">•</span>
-                  <span className="text-[10px] text-zinc-500">{fb.time}</span>
-                </div>
-                <p className="text-sm text-zinc-700 leading-relaxed font-medium">{fb.text}</p>
-              </div>
-
-              {/* Status and category tags */}
-              <div className="flex items-center gap-2.5 self-start md:self-center">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-500">
-                  {fb.category}
-                </span>
-                <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider ${
-                  fb.sentiment === "positive" 
-                    ? "bg-green-50 text-green-600 border border-green-100" 
-                    : fb.sentiment === "negative"
-                      ? "bg-red-50 text-red-600 border border-red-100"
-                      : "bg-zinc-100 text-zinc-600 border border-zinc-200"
-                }`}>
-                  {fb.sentiment}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+    <section className="grid gap-5 xl:grid-cols-3"><div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-600 via-violet-600 to-indigo-700 p-5 text-white shadow-xl shadow-brand-500/20"><Sparkles className="absolute -right-3 -top-3 h-28 w-28 text-white/10"/><span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"><Sparkles size={13}/> AI suggestion</span><h3 className="mt-4 text-lg font-bold">Your best focus window is now.</h3><p className="mt-2 text-xs leading-relaxed text-violet-100">You&apos;re usually 24% more productive between 10 AM and noon. Start with the mobile wireframes while your energy is high.</p><button className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-white">Use this plan <ArrowUpRight size={14}/></button></div>
+      <div className="card"><div className="mb-4 flex items-center justify-between"><div><h3 className="section-title">Upcoming Events</h3><p className="section-copy">Your next commitments</p></div><CalendarDays size={18} className="text-brand-500"/></div><Event icon={<Video size={15}/>} title="Design sync meeting" time="11:00 – 11:30 AM" tone="bg-blue-50 text-blue-600 dark:bg-blue-500/10"/><Event icon={<Target size={15}/>} title="Roadmap review deadline" time="Today, 4:00 PM" tone="bg-rose-50 text-rose-500 dark:bg-rose-500/10"/><Event icon={<CalendarDays size={15}/>} title="Weekly planning" time="Tomorrow, 9:30 AM" tone="bg-violet-50 text-violet-500 dark:bg-violet-500/10"/></div>
+      <div className="card"><div className="mb-3 flex items-center justify-between"><div><h3 className="section-title">Productivity Analytics</h3><p className="section-copy">Focus score this week</p></div><span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-500"><TrendingUp size={14}/> 12%</span></div><div className="h-28"><ResponsiveContainer width="100%" height="100%"><AreaChart data={chartData}><defs><linearGradient id="productivity" x1="0" x2="0" y1="0" y2="1"><stop stopColor="#6c4cfd" stopOpacity=".35"/><stop offset="1" stopColor="#6c4cfd" stopOpacity="0"/></linearGradient></defs><Tooltip contentStyle={{borderRadius:12,border:'none',fontSize:12}}/><XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fontSize:10,fill:'#94a3b8'}}/><Area type="monotone" dataKey="value" stroke="#6c4cfd" strokeWidth={3} fill="url(#productivity)"/></AreaChart></ResponsiveContainer></div><div className="mt-3 grid grid-cols-3 border-t border-slate-100 pt-3 text-center dark:border-white/10"><span><b className="block text-sm">82%</b><small className="text-[10px] text-slate-400">Focus score</small></span><span><b className="block text-sm">18</b><small className="text-[10px] text-slate-400">Tasks done</small></span><span><b className="block text-sm">8.4h</b><small className="text-[10px] text-slate-400">Deep work</small></span></div></div></section>
+  </div>;
 }
 
-function ProgressRow({ label, percentage, color, count }: { label: string, percentage: number, color: string, count: number }) {
-  return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between text-xs font-semibold text-zinc-500">
-        <span className="truncate">{label}</span>
-        <span>{percentage}% ({count})</span>
-      </div>
-      <div className="w-full h-1.5 rounded-full bg-zinc-100 overflow-hidden">
-        <div className={`h-full ${color} rounded-full`} style={{ width: `${percentage}%` }} />
-      </div>
-    </div>
-  );
-}
+function Metric({label,value,note,icon,color,extra}:{label:string,value:string,note:string,icon:React.ReactNode,color:string,extra?:React.ReactNode}) { return <div className="card"><div className="flex items-center justify-between"><span className="text-xs font-semibold text-slate-500 dark:text-slate-400">{label}</span><span className={`grid h-9 w-9 place-items-center rounded-xl ${color}`}>{icon}</span></div><div className="mt-5 flex items-end justify-between"><b className="text-2xl tracking-tight">{value}</b>{extra}</div><p className="mt-1.5 text-[11px] font-medium text-slate-400">{note}</p></div> }
+function Event({icon,title,time,tone}:{icon:React.ReactNode,title:string,time:string,tone:string}) { return <div className="mb-3 flex items-center gap-3 last:mb-0"><span className={`grid h-8 w-8 place-items-center rounded-lg ${tone}`}>{icon}</span><span className="min-w-0"><b className="block truncate text-xs">{title}</b><small className="text-[10px] text-slate-400">{time}</small></span></div> }
