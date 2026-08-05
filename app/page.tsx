@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { 
-  ArrowRight, 
-  MessageSquare, 
-  TrendingUp, 
-  BarChart3, 
-  Zap, 
-  Shield, 
-  Users, 
-  CheckCircle2 
+import {
+  ArrowRight,
+  MessageSquare,
+  TrendingUp,
+  BarChart3,
+  Zap,
+  Shield,
+  Users,
+  CheckCircle2,
 } from "lucide-react";
 
 export default function Home() {
@@ -24,26 +24,26 @@ export default function Home() {
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-sky-500 text-white font-bold transition group-hover:scale-105 shadow-lg shadow-indigo-500/20">
               ◆
             </div>
-            <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-650 bg-clip-text text-transparent font-extrabold">
+            <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-650 bg-clip-text text-transparent">
               LOOP
             </span>
           </Link>
 
           <div className="flex items-center gap-4">
-            <Link 
-              href="/login" 
+            <Link
+              href="/login"
               className="text-sm font-medium text-zinc-600 hover:text-zinc-950 transition"
             >
               Sign In
             </Link>
-            <Link 
-              href="/dashboard" 
+            <Link
+              href="/dashboard"
               className="inline-flex items-center justify-center rounded-xl bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-800 border border-zinc-200 hover:bg-zinc-200/80 transition"
             >
               Dashboard
             </Link>
-            <Link 
-              href="/signup" 
+            <Link
+              href="/signup"
               className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/20"
             >
               Get Started

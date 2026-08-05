@@ -71,7 +71,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 via-purple-500 to-sky-500 text-white font-bold">
                 ◆
               </div>
-              <span className="text-lg font-bold tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-650 bg-clip-text text-transparent font-extrabold">
+              <span className="text-lg font-extrabold tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-650 bg-clip-text text-transparent">
                 LOOP
               </span>
             </Link>

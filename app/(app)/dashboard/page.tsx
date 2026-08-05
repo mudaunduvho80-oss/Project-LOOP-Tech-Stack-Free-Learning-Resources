@@ -298,7 +298,7 @@ function ProgressRow({ label, percentage, color, count }: { label: string, perce
         <span>{percentage}% ({count})</span>
       </div>
       <div className="w-full h-1.5 rounded-full bg-zinc-100 overflow-hidden">
-        <div className={`h-full ${color} rounded-full`} style={{ width: `${percentage}%` }} />
+        <div className={`h-full ${color} rounded-full`} style={{ inlineSize: `${percentage}%` }} />
       </div>
     </div>
   );
