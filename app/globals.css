@@ -29,6 +29,8 @@
 /* Keep chart overlays consistent with the selected light or dark dashboard theme. */
 .recharts-default-tooltip {
   @apply !border-slate-200 !bg-white !text-slate-800 shadow-lg dark:!border-white/10 dark:!bg-[#1a2339] dark:!text-slate-100;
+  font-size: 12px;
+  border-radius: 12px;
 }
 
 .recharts-tooltip-label,
@@ -36,10 +38,18 @@
   @apply !text-slate-600 dark:!text-slate-300;
 }
 
+.progress-fill {
+  inline-size: var(--progress, 0%);
+}
+
+.timer-ring {
+  background: conic-gradient(#6c4cfd var(--ring-progress), rgba(148,163,184,.15) 0);
+}
+
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  inline-size: 6px;
+  block-size: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;

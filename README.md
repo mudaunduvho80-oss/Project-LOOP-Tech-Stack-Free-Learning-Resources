@@ -16,20 +16,22 @@ Open [http://localhost:3000](http://localhost:3000). The main workspace is avail
 | Feature | Route | Main implementation |
 | --- | --- | --- |
 | Dashboard | `/dashboard` | `app/(app)/dashboard/page.tsx` |
-| Tasks | `/tasks` | `components/FeaturePages.tsx` |
-| Calendar | `/calendar` | `components/FeaturePages.tsx` |
-| Focus Mode | `/focus` | `components/FeaturePages.tsx` |
-| Goals | `/goals` | `components/FeaturePages.tsx` |
-| Analytics | `/analytics` | `components/FeaturePages.tsx` |
-| Notes | `/notes` | `components/FeaturePages.tsx` |
+| Tasks | `/tasks` | `app/(app)/tasks/page.tsx` |
+| Calendar | `/calendar` | `app/(app)/calendar/page.tsx` |
+| Focus Mode | `/focus` | `app/(app)/focus/page.tsx` |
+| Goals | `/goals` | `app/(app)/goals/page.tsx` |
+| Analytics | `/analytics` | `app/(app)/analytics/page.tsx` |
+| Notes | `/notes` | `app/(app)/notes/page.tsx` |
 | AI Assistant | `/ask` | `components/AIAssistant.tsx` |
-| Integrations | `/integrations` | `components/FeaturePages.tsx` |
+| Integrations | `/integrations` | `app/(app)/integrations/page.tsx` |
 | Settings | `/settings` | `app/(app)/settings/page.tsx` |
 
 ## Team implementation notes
 
 - Shared layout and navigation are in `app/(app)/layout.tsx`.
-- New feature page screens are intentionally grouped in `components/FeaturePages.tsx` so team members can replace mock data with API calls incrementally.
+- Shared page headers and metric cards are in `components/FeaturePageLayout.tsx`; reusable progress bars and category dots are in `components/ProgressBar.tsx` and `components/CategoryDot.tsx`.
+- Feature pages use route-local mock data so team members can replace it with API calls incrementally.
+- Global styles use logical sizing properties for progress indicators and scrollbars, supporting different writing modes.
 - The AI Assistant route uses `components/AIAssistant.tsx`. Its chat implementation lives in `components/AskLoopChat.tsx`; replace the mock `handleSend` response with the production AI endpoint when it is ready.
 - Legacy Inbox, Reports, and Trends routes were removed because they are outside the current navigation design.
 
