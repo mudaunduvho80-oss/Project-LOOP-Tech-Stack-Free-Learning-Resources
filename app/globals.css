@@ -66,3 +66,16 @@
 .animate-glow {
   animation: pulseGlow 4s ease-in-out infinite;
 }
+
+@keyframes aiAssistantFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(28px, -20px, 0) scale(1.08); }
+}
+
+.ai-assistant-orb {
+  animation: aiAssistantFloat 11s ease-in-out infinite;
+}
+
+.ai-assistant-orb-delayed {
+  animation: aiAssistantFloat 14s ease-in-out -5s infinite reverse;
+}

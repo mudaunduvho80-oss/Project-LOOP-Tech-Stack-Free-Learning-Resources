@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { ViewMode } from '@/lib/types';
 import {
   LayoutDashboard,
@@ -65,15 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="p-5">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              {/* LOOP Infinity Logo Icon */}
-              <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 via-purple-500 to-cyan-400 p-[2px] flex items-center justify-center shadow-md shadow-brand-500/20">
-                <div className="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center">
-                  <svg className="w-6 h-6 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 12c-2-2.5-4-4-6.5-4A4.5 4.5 0 0 0 1 12.5 4.5 4.5 0 0 0 5.5 17c2.5 0 4.5-1.5 6.5-4.5z" />
-                    <path d="M12 12c2 2.5 4 4 6.5 4a4.5 4.5 0 0 0 4.5-4.5A4.5 4.5 0 0 0 18.5 7c-2.5 0-4.5 1.5-6.5 4.5z" />
-                  </svg>
-                </div>
-              </div>
+              <Image src="/loop icon.png" alt="LOOP logo" width={36} height={36} className="h-9 w-9 rounded-xl object-cover shadow-md shadow-brand-500/20" priority />
               <div>
                 <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-slate-900 via-brand-600 to-brand-500 dark:from-white dark:to-brand-300 bg-clip-text text-transparent">
                   LOOP
@@ -112,11 +105,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Icon
-                      className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${
-                        isActive ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-brand-500'
-                      }`}
-                    />
+                    {item.id === 'ask-loop' ? <Image src="/loop icon.png" alt="" width={16} height={16} className="h-4 w-4 rounded object-cover transition-transform duration-200 group-hover:scale-110"/> : <Icon className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-brand-500'}`} />}
                     <span>{item.label}</span>
                   </div>
 

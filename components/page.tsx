@@ -18,7 +18,7 @@ import { FocusTimer } from '@/components/FocusTimer';
 import { AISuggestionCard } from '@/components/AISuggestionCard';
 import { UpcomingEventsCard } from '@/components/UpcomingEventsCard';
 import { ProductivityCharts } from '@/components/ProductivityCharts';
-import { AskLoopChat } from '@/components/AskLoopChat';
+import { LoopAIFeatures } from '@/components/LoopAIFeatures';
 import {
   FullTasksView,
   CalendarView,
@@ -188,7 +188,7 @@ export default function Home() {
 
           {currentView === 'ask-loop' && (
             <div className="animate-in fade-in duration-300">
-              <AskLoopChat />
+              <LoopAIFeatures />
             </div>
           )}
 

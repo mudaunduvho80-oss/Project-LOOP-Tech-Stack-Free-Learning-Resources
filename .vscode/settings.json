@@ -5,8 +5,17 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "tailwindCSS.includeLanguages": {
     "postcss": "tailwindcss"
-  }
-}
-{
-    "prisma.pinToPrisma6": false
+  },
+  "prisma.pinToPrisma6": false,
+  "[typescript]": {
+    "logicalProperties.ignoreLanguageIds": [
+      "typescript"
+    ]
+  },
+  "[typescriptreact]": {
+    "logicalProperties.ignoreLanguageIds": [
+      "typescriptreact"
+    ]
+  },
+  "WillLuke.nextjs.hasPrompted": true
 }

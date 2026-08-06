@@ -2,7 +2,7 @@ import { AIAssistant } from '@/components/AIAssistant';
 
 export default function AIAssistantPage() {
   return (
-    <div className="mx-auto max-w-5xl space-y-6">
+    <div className="mx-auto max-w-7xl space-y-6">
       <section>
         <p className="text-xs font-semibold uppercase tracking-[.16em] text-brand-500">Your productivity copilot</p>
         <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">AI Assistant</h1>
