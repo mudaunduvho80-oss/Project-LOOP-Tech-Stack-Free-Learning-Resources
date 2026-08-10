@@ -6,12 +6,14 @@ export function PageTitle({
   title,
   description,
   action,
+  onAction,
   children,
 }: {
   eyebrow: string;
   title: string;
   description: string;
   action?: string;
+  onAction?: () => void;
   children: ReactNode;
 }) {
   return (
@@ -23,7 +25,11 @@ export function PageTitle({
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{description}</p>
         </div>
         {action && (
-          <button className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/25">
+          <button
+            type="button"
+            onClick={onAction}
+            className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/25"
+          >
             <Plus size={17} />
             {action}
           </button>
